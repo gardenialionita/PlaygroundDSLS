@@ -6,22 +6,14 @@
 
     Try changing "table" to "view" below
 */
+{{ config(materialized="table") }}
 
-{{ config(materialized='table') }}
+with
+    source_data as (
 
-with source_data as (
+        select user_id as customer_id, first_name, last_name, dob, email from raw_customers
 
-    select 1 as id
-    union all
-    select null as id
-
-)
+    )
 
 select *
 from source_data
-
-/*
-    Uncomment the line below to remove records with null `id` values
-*/
-
--- where id is not null
